@@ -1,0 +1,14 @@
+
+    WebSMS Cabbage Connector
+    ========================
+
+This is WebSMS Connector for the Cabbage Gateway. 
+It's an android app that lets you send free/cheap sms messages via web sites of Irish mobile providers.
+
+See details on:
+	http://mikebl71.github.com/websms-connector-cabbage/
+
+
+You will need websms-api [1] to compile this code.
+
+[1] http://github.com/felixb/websms-api/

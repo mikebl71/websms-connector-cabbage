@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/account_prefs_title">
+
+	<EditTextPreference android:key="account_label"
+		android:title="@string/account_prefs_label"
+		android:summary="@string/account_prefs_label_summary"
+		android:persistent="false"
+		android:inputType="text" />
+
+	<PreferenceCategory android:title="@string/account_prefs_details">
+	
+		<ListPreference android:key="account_provider"
+			android:title="@string/account_prefs_provider" 
+			android:summary="@string/account_prefs_provider_summary"
+			android:persistent="false"
+			android:entries="@array/cabbage_providers"
+			android:entryValues="@array/cabbage_providers_values" />
+
+		<EditTextPreference android:key="account_custom_provider"
+			android:title="@string/account_prefs_custom_provider" 
+			android:summary="@string/account_prefs_custom_provider_summary"
+			android:persistent="false"
+			android:inputType="text" />
+
+		<EditTextPreference android:key="account_username"
+			android:title="@string/account_prefs_username" 
+			android:summary="@string/account_prefs_username_summary"
+			android:persistent="false"
+			android:inputType="text" />
+		
+		<EditTextPreference android:key="account_password"
+			android:title="@string/account_prefs_password"
+			android:summary="@string/account_prefs_password_summary"
+			android:persistent="false"
+			android:inputType="textPassword" />
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

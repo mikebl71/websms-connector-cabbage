@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:title="@string/connector_prefs_title">
+
+	<CheckBoxPreference android:key="enable_connector"
+		android:title="@string/connector_prefs_enable" />
+
+	<PreferenceCategory 
+	    android:title="@string/connector_prefs_connectivity">
+	    
+		<CheckBoxPreference android:key="cabbage_url_default"
+			android:title="@string/connector_prefs_cabbage_url_default"
+			android:summary="@string/connector_prefs_cabbage_url_default_summary"
+			android:defaultValue="true" 
+			android:disableDependentsState="true"
+			android:dependency="enable_connector" />
+
+		<EditTextPreference android:key="cabbage_url_custom"
+			android:title="@string/connector_prefs_cabbage_url_custom"
+			android:summary="@string/connector_prefs_cabbage_url_custom_summary"
+			android:inputType="textUri" 
+			android:dependency="cabbage_url_default" />
+				    	    
+	</PreferenceCategory>
+
+	<PreferenceCategory android:key="accounts" 
+	    android:title="@string/connector_prefs_accounts" />
+
+</PreferenceScreen>
