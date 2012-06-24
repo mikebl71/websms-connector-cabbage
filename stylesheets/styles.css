@@ -866,12 +866,12 @@ footer {
     margin: 0;
   }
 
-  nav {
-    display: none;
-  }
-
   header, section, footer {
     float: none;
+  }
+  header {
+    padding: 20px 20px;
+    margin: 0;
   }
   header h1, section h1, footer h1 {
     white-space: nowrap;
@@ -880,15 +880,23 @@ footer {
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
   }
+  header h1 {
+    font-size: 32px;
+  }
 
   #banner {
     width: 100%;
+    top: 80px;
   }
   #banner .downloads {
     margin-right: 60px;
   }
   #banner #logo {
     margin-right: 15px;
+  }
+
+  nav {
+    display: none;
   }
 
   section {
@@ -913,12 +921,7 @@ footer {
     word-wrap: break-word;
   }
 
-  header {
-    padding: 20px 20px;
-    margin: 0;
-  }
   header h1 {
-    font-size: 32px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -929,9 +932,6 @@ footer {
     display: none;
   }
 
-  #banner {
-    top: 80px;
-  }
   #banner .fork {
     float: left;
     display: inline-block;
