@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WebSMS Connector: Cabbage</string>
+    <string name="app_name">WebSMS: Cabbage Connector</string>
 
     <string name="connector_cabbage_author">mikebl71 &lt;mikeblmail-websms@yahoo.ie&gt;</string>
 	<string name="connector_cabbage_name">cabbage</string>
@@ -12,12 +12,13 @@
 	<string name="connector_prefs_cabbage_url_default">Default Cabbage Gateway</string>
 	<string name="connector_prefs_cabbage_url_default_summary">Use default location for Cabbage Gateway</string>
 	<string name="connector_prefs_cabbage_url_custom">Custom Cabbage Gateway URL</string>
-	<string name="connector_prefs_cabbage_url_custom_summary">The web address of the Cabbage message sending script</string>
+	<string name="connector_prefs_cabbage_url_custom_summary">Web address of the Cabbage message sending script</string>
 	<string name="connector_prefs_accounts">Accounts</string>
 		
-	<string name="pref_err_no_accounts">No accounts configured</string>
+	<string name="pref_show_add_account">Click Menu / Add Account to add accounts</string>
+	<string name="pref_err_no_accounts">No accounts configured (use Menu / Add Account)</string>
 	<string name="pref_err_empty_cabbage_url">Location of Cabbage Gateway is not configured (either select Default Cabbage Gateway or provide Custom Cabbage Gateway URL)</string>
-	<string name="invalid_connector_conf">{0}. The connector will be disabled.</string>
+	<string name="invalid_connector_conf">{0}. Fix or disable the connector.</string>
 
 	<string name="account_prefs_title">Cabbage Account</string>
 	<string name="account_prefs_label">Account Name</string>
@@ -28,7 +29,7 @@
 	<string name="account_prefs_custom_provider">Custom Provider</string>
 	<string name="account_prefs_custom_provider_summary">Name of custom mobile provider</string>
 	<string name="account_prefs_username">User Name</string>
-	<string name="account_prefs_username_summary">User name for logging in to provider web site</string>
+	<string name="account_prefs_username_summary">User name (or phone number) for logging in to provider web site</string>
 	<string name="account_prefs_password">Password</string>
 	<string name="account_prefs_password_summary">Password for logging in to provider web site</string>
 	
@@ -40,6 +41,7 @@
 		<item>te</item>
 		<item>em</item>
 		<item>ou</item>
+		<item>tel</item>
 		<item>custom</item>
 	</string-array>
 	
@@ -51,6 +53,7 @@
 		<item>Tesco Mobile</item>
 		<item>eMobile</item>
 		<item>O2 UK</item>
+		<item>Telenor Serbia</item>
 		<item>Custom</item>
 	</string-array>
 
@@ -58,11 +61,11 @@
 	<string name="menu_delete_account">Delete Account</string>
 	
 	<string name="delete_account_conf">Delete this account?</string>
-	<string name="invalid_account_conf">Some required fields are empty. Delete this account?</string>
+	<string name="invalid_account_conf">Some required fields are empty. Fix or delete the account.</string>
 	<string name="delete">Delete</string>
 	<string name="disable">Disable</string>
 	<string name="cancel">Cancel</string>
-	<string name="edit">Edit</string>
+	<string name="fix">Fix</string>
 	
 	<string name="cabbage_err_1">Failed to login to mobile provider web site (incorrect user name or password)</string>
     <string name="cabbage_err_2">Empty destination or Generic Cabbage error (-2)</string>

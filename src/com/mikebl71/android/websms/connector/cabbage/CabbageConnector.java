@@ -176,16 +176,7 @@ public class CabbageConnector extends BasicConnector {
 
 	@Override
 	protected String getRecipients(ConnectorCommand command) {
-		String[] recipients = command.getRecipients();
-		if (recipients == null || recipients.length == 0) {
-			return "";
-		} else {
-			StringBuilder sb = new StringBuilder();
-			for (String recipient : recipients) {
-				sb.append(Utils.getRecipientsNumber(recipient)).append(',');
-			}
-			return sb.substring(0, sb.length() - 1);
-		}
+		return Utils.joinRecipientsNumbers(command.getRecipients(), ",", false /*oldFormat*/);
 	}
 
 	@Override

@@ -158,17 +158,17 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 				.setMessage(R.string.invalid_account_conf)
 				.setCancelable(true)
 
-				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// delete the account
-						finishWithDeleteAccount();
-					}
-				})
-				
-				.setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.fix, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						// return to edit
 						dialog.cancel();
+					}
+				})
+
+				.setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// delete the account
+						finishWithDeleteAccount();
 					}
 				});
 			return builder.create();

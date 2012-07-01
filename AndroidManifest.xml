@@ -19,12 +19,13 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mikebl71.android.websms.connector.cabbage"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:installLocation="auto"
+    android:versionCode="2"
+    android:versionName="1.1" >
 
 	<uses-sdk
-	    android:minSdkVersion="3" 
-	    android:targetSdkVersion="7" />
+	    android:minSdkVersion="7" 
+	    android:targetSdkVersion="10" />
 
 	<supports-screens
 	    android:largeScreens="true"
@@ -61,7 +62,7 @@
 
 		<!-- Activity for Connector Preferences -->
 		<activity android:name=".CabbageConnectorPreferenceActivity">
-			<intent-filter>
+		    <intent-filter>
 				<action android:name="com.mikebl71.android.websms.connector.cabbage.PREFS" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>

@@ -32,6 +32,7 @@ import android.preference.PreferenceCategory;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import de.ub0r.android.websms.connector.common.ConnectorPreferenceActivity;
 
 /**
@@ -41,6 +42,8 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 
 	private static final String PREFS_ACCOUNTS_CATEGORY = "accounts";
 
+	private static final String SCR_ENABLE = "enable_connector";
+	
 	public static final int DIALOG_INVALID_CONFIRM_ID = 12;
 
 	/**
@@ -50,6 +53,24 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.addPreferencesFromResource(R.xml.connector_prefs);
+
+		// special treatment for "enable" preference
+		final Preference enablePref = getPreferenceScreen().findPreference(SCR_ENABLE);
+
+		enablePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
+				int accountNum = AccountPreferences.getAccountIds(prefs).size();
+				
+				if ((Boolean)newValue && accountNum == 0) {
+					// guide user to adding new accounts
+					Toast.makeText(getApplicationContext(),
+							getString(R.string.pref_show_add_account),
+							Toast.LENGTH_LONG).show();
+				}
+				return true;
+			}
+		});
 	}
 
 	/**
@@ -137,17 +158,17 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 				.setMessage(getErrorMessage(getApplicationContext()))
 				.setCancelable(true)
 
-				.setPositiveButton(R.string.disable, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// mark the connector as disabled
-						finishWithDisable();
-					}
-				})
-
-				.setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.fix, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						// return to edit
 						dialog.cancel();
+					}
+				})
+
+				.setNegativeButton(R.string.disable, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// mark the connector as disabled
+						finishWithDisable();
 					}
 				});
 			return builder.create();
