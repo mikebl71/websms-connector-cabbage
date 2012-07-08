@@ -156,6 +156,11 @@ public class CabbageConnector extends BasicConnector {
 	}
 
 	@Override
+	protected String getEncoding() {
+		return "UTF-8";
+	}
+
+	@Override
 	protected String getUsername(Context context, ConnectorCommand command, ConnectorSpec cs) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String accId = getAccountId(command, prefs);
