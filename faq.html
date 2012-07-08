@@ -1,44 +1,57 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>WebSMS Cabbage Connector by mikebl71</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <title>WebSMS Cabbage Connector</title>
+  <meta name="Language" content="en" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Language" content="en" />
+  <link rel="StyleSheet" href="css/sinorcaish-screen.css" type="text/css" media="screen" />
+  <link rel="StyleSheet" href="css/sinorcaish-print.css" type="text/css" media="print" />
+</head>
 
-  </head>
-  <body>
+<body>
 
-      <header>
-        <h1>WebSMS Cabbage Connector</h1>
-        <p></p>
-      </header>
+<!-- For non-visual or non-stylesheet-capable user agents -->
+<div id="mainlink"><a href="#main">Skip to main content.</a></div>
 
-      <div id="banner">
-        <span id="logo"></span>
 
-        <a href="./index.html" class="button tab"><strong>Home</strong></a>
-        <a href="./instructions.html" class="button tab"><strong>Instructions</strong></a>
-        <a href="./faq.html" class="button tab"><strong>FAQ</strong></a>
-        <a href="./feedback.html" class="button tab"><strong>Feedback</strong></a>
-        <a href="./source.html" class="button tab"><strong>Source</strong></a>
-      </div><!-- end banner -->
+<!-- ======== Header ======== -->
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
+<div id="header">
+  <div class="left">
+    <p>WebSMS Cabbage Connector</p>
+  </div>
+
+  <div class="subheader">
+    <p>
+      <span class="hidden">Navigation:</span>
+      <a href="index.html">Home</a> |
+      <a href="instructions.html">Instructions</a> |
+      <a class="highlight" href="faq.html">FAQ</a> |
+      <a href="support.html">Support</a> |
+      <a href="source.html">Source</a>
+    </p>
+  </div>
+</div>
+
+
+<!-- ======== Left Sidebar ======== -->
+
+<div id="sidebar">
+  <div>
+    <ul>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ======== Main Content ======== -->
+
+<div id="main">
+
       
 <h1>Frequently Asked Questions</h1>
-<ol>
+<ul>
 <li><a href="#cabbage_gateway">What is "Cabbage Gateway"?</a></li>
 <li><a href="#websms_connector">What is "WebSMS Connector"?</a></li>
 <li><a href="#providers">Which mobile providers are supported?</a></li>
@@ -49,13 +62,15 @@
 <li><a href="#safe">Is it safe to use Cabbage Gateway?</a></li>
 <li><a href="#my_own_gateway">Can I install my own copy of Cabbage Gateway</a></li>
 <li><a href="#new_provider">Could you support provider X?</a></li>
-<li><a href="#custom_provider">What if I know that provider Y is supported by Cabbage Gateway but somehow it is not in the Providers list?</a></li>
+<li><a href="#provider_not_in_list">What if I know that provider Y is supported by Cabbage Gateway but somehow it is not in the Providers list?</a></li>
+<li><a href="#custom_provider">Can I force app to send a custom provider code?</a></li>
 <li><a href="#te_international_balance">For Tesco Mobile, why does it show international balance only?</a></li>
 <li><a href="#multi_accounts_balance">I added two accounts to the Connector but only the first balance is shown, why?</a></li>
-</ol>
+</ul>
 
-<a name="cabbage_gateway"></a>
-<h2>What is "Cabbage Gateway"?</h2>
+<hr class="lighter" />
+
+<h4 id="cabbage_gateway">What is "Cabbage Gateway"?</h4>
 
 <p>It is a web site that can take your details like your phone number and message,
 login on your behalf to the web site of your mobile provider and send your message as a free web text.
@@ -63,28 +78,34 @@ The great thing is that, if you do this from your mobile,
 the data traffic between your mobile and the Gateway is kept to an absolute minimum. 
 All the verbose talking is done between the gateway and the provider's web site. 
 Which means that if you pay for your mobile data per kilobyte then the extra cost per message is minimal.
-You can read more about it <a href="http://cabbagetexter.com/">here</a>.</p>
+You can read more about it on the <a href="http://cabbagetexter.com/">Cabbage website</a>.</p>
 
-<a name="websms_connector"></a>
-<h2>What is "WebSMS Connector"?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="websms_connector">What is "WebSMS Connector"?</h2>
 
 <p>WebSMS is an android app that was developed to send free/cheep sms messages. 
 The great power of this app comes from its plugin architecture. 
 It allows you to add support for more and more providers by installing new Connectors. 
-So, if you install the "Fishtext Connector", you can send messages via Fishtext.com, 
+So, if you install the Fishtext Connector, you can send messages via Fishtext.com, 
 and if you install this Cabbage Connector, you can send messages via Cabbage Gateway, etc.
-You can read more about it <a href="https://code.google.com/p/websmsdroid/">here</a>.</p>
+You can read more about it on the <a href="https://code.google.com/p/websmsdroid/">WebSMS website</a>.</p>
 
-<a name="providers"></a>
-<h2>Which mobile providers are supported?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="providers">Which mobile providers are supported?</h4>
 
 <p>Irish mobile providers: Vodafone, Meteor, Three, Tesco Mobile, eMobile, and also O2 UK and Telenor Serbia.
 This application sends sms using web sites of these mobile providers (via Cabbage Gateway). 
 So you must be registered on one of these web sites (have username and password to login) 
 in order to use this application.</p>
 
-<a name="o2"></a>
-<h2>Why "O2" is not in the list of supported mobile providers?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="o2">Why "O2" is not in the list of supported mobile providers?</h4>
 
 <p>Unfortunately, O2 decided to block the site where Cabbage Gateway is running. 
 So the default Cabbage Gateway does not currently work with O2.</p>
@@ -92,14 +113,16 @@ So the default Cabbage Gateway does not currently work with O2.</p>
 <p>However, if you know a bit about computers then there is a workaround. 
 You can install a copy of Cabbage Gateway on your own web site. 
 Then, provided that you don't share it with too many people and stay under the O2's radar, 
-you can use it with no problems.
-<a href="#my_own_gateway">This answer</a> describes how to switch to your own gateway.
-Then, since "O2" is not in the official Providers list, you need to use the "Custom" provider. 
+you can use it with no problems. See the
+<a href="#my_own_gateway">"Can I install my own copy of Cabbage Gateway"</a> question for the details on how to switch to your own gateway.
+Then, since "O2" is not in the official Providers list, you'll need to use the "Custom" provider. 
 When you add your account, choose "Custom" in the "Provider" list
 and type "o" (without quotes - cabbage code for O2) in the "Custom Provider" field.</p>
 
-<a name="how_much"></a>
-<h2>How much does it cost to send a message?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="how_much">How much does it cost to send a message?</h4>
 
 <p>This largely depends on your mobile provider. 
 With this way of sending messages, you don't pay for sending sms, 
@@ -115,75 +138,99 @@ So do check the prices with your mobile provider.</p>
 
 <p>Also, "free" web texts are not always entirely free. 
 They usually have some conditions like national destinations only, or for one month after topup only. 
-And you might be charged full sms rate you you send a message outside these boundaries. 
+And you might be charged full sms rate if you send a message outside these boundaries. 
 So do read the Terms and Conditions of your web texts.</p>
 
 <p>If you are confused then the simplest way to figure this out is to send a few test messages 
 (and check your balance for the first while). 
 Then you'll know for sure how much it costs and whether it's worth it.</p>
 
-<a name="international_destinations"></a>
-<h2>Does this app support international destinations, non-english characters?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="international_destinations">Does this app support international destinations, non-english characters?</h4>
 
 <p>This entirely depends on whether the web texts of your mobile provider support these. 
 If their web site doesn't say anything explicitly, 
 then the best way to verify this is to login to their web site,
 try to send a test message to your destination in your language
 and see if it arrives correctly. 
-If it does then it will most likely work if sent via this application as well.</p>
+If it does then it should work with this application as well.</p>
 
-<a name="multi_accounts"></a>
-<h2>I am registered with several Irish mobile providers and want to switch between them, is this supported?</h2>
+<div class="totop"><a href="#main">Top</a></div>
 
-<p>Yes, you can add all your accounts to this Connector and choose which to use when you send the message.
+
+<h4 id="multi_accounts">I am registered with several Irish mobile providers and want to switch between them, is this supported?</h4>
+
+<p>Yes, you can add all your accounts to this Connector and choose which to use when you send a message.
 Note though that the message will look as if sent from the chosen account (and the respective phone number). 
 So, if your recipient will try to reply back, the reply will go to that number.</p>
 
-<a name="safe"></a>
-<h2>Is it safe to use Cabbage Gateway?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="safe">Is it safe to use Cabbage Gateway?</h4>
 
 <p>Well, that depends. 
 The way Cabbage Gateway works is that it needs to know your username, password and message text in order to send it on your behalf from the mobile provider's web site. 
-So you do need to trust Cabbage developer that he will not try to access this information.
+So you do need to trust Cabbage developer that he will not try to access this information himself.
 However, this gateway is used by loads of people in Ireland and, so far, no-one accused him of any wrong doing.
 So, I'd say, unless you send extremely sensitive information (which sms are no good for anyway) 
 then you'll be fine. 
 Additionally, if you want to play safe, you can actually install your own copy of the gateway 
-as described <a href="#my_own_gateway">here</a>.</p>
+as described in the <a href="#my_own_gateway">"Can I install my own copy of Cabbage Gateway"</a> question.</p>
 
-<a name="my_own_gateway"></a>
-<h2>Can I install my own copy of Cabbage Gateway</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="my_own_gateway">Can I install my own copy of Cabbage Gateway</h4>
 
 <p>Absolutely. 
 Cabbage Gateway is just a bunch of PHP scripts. 
-So, if you know of a good PHP hosting site (it must supports "curl"),
-then you can download the scripts from <a href="http://cabbagetexter.com/source.php">here</a>
+So, if you know of a good PHP hosting site (it must support "curl"),
+then you can download the scripts from the <a href="http://cabbagetexter.com/source.php">Cabbage website</a>
 and deploy them on your site.
 After that, go to the preferences screen of WebSMS Cabbage Connector, un-tick "Default Cabbage Gateway" 
 and type in the url of your scripts into the "Custom Cabbage Gateway" field
 (for example, "http://yourhost.com/cabbage/send.php", without quotes).</p>
 
-<a name="new_provider"></a>
-<h2>Could you support provider X?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="new_provider">Could you support provider X?</h4>
 
 <p>A provider must be supported by the Cabbage Gateway first. 
-So please contact Cabbage developer <a href="http://cabbagetexter.com/feedback.php">here</a> and ask him.</p>
+So please contact Cabbage developer using his <a href="http://cabbagetexter.com/feedback.php">Feedback page</a> and ask him.</p>
 
 <p>Alternatively, if you are a developer yourself, 
 you can develop your own script in a similar format and install it on some web site. 
 As soon as this script has the same interface as Cabbage, you can use this Connector to access it.
-Have a look at <a href="#my_own_gateway">this</a> and <a href="#custom_provider">this</a> answers.
+Have a look at the <a href="#my_own_gateway">"Can I install my own copy of Cabbage Gateway"</a> and <a href="#custom_provider">"Can I force app to send a custom provider code"</a> questions.
 
-<a name="custom_provider"></a>
-<h2>What if I know that provider Y is supported by Cabbage Gateway but somehow it is not in the Providers list?</h2>
+<div class="totop"><a href="#main">Top</a></div>
 
-<p>First of all, let me know and I'll add it to the Providers list. 
-But in meanwhile, you can select "Custom" in the "Provider" list 
-and then type in the provider's code in the "Custom Provider" field. 
+
+<h4 id="provider_not_in_list">What if I know that provider Y is supported by Cabbage Gateway but somehow it is not in the Providers list?</h4>
+
+<p>Let me know and I'll add it to the Providers list. Alternatively, have a look at the <a href="#custom_provider">"Can I force app to send a custom provider code"</a> question.</p>
+
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="custom_provider">Can I force app to send a custom provider code?</h4>
+
+<p>In some cases, it is necessary to use a provider code that is not in the official list. 
+For example, if you use your own copy of Cabbage Gateway that supports more providers than the official one. 
+Or if it happened that a new provider was recently added to the Cabbage Gateway 
+but it is not in the app's list yet. 
+To use an alternative code, you can select "Custom" in the "Provider" list 
+and then type in the provider's code in the "Custom Provider" field.
 Note that this has to be the internal Cabbage's provider code like "o" for "O2" or "te" for "Tesco Mobile".</p>
 
-<a name="te_international_balance"></a>
-<h2>For Tesco Mobile, why does it show international balance only?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="te_international_balance">For Tesco Mobile, why does it show international balance only?</h4>
 
 <p>Tesco Mobile is a bit special in the sense that they have two balances: one for national and another for international messages. 
 Neither WebSMS nor Cabbage Gateway support this.
@@ -193,19 +240,29 @@ I would think that something like the minimum of the two balances would be a bet
 I asked the Cabbage developer about this but so far it remains the same.
 You can ask him as well to keep up the pressure.</p>
 
-<a name="multi_accounts_balance"></a>
-<h2>I added two accounts to the Connector but only the first balance is shown, why?</h2>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="multi_accounts_balance">I added two accounts to the Connector but only the first balance is shown, why?</h4>
 
 <p>This is a known issue. Unfortunately, this is not that easy to fix as it requires changes to the WebSMS framework.
 But I am working on this.</p>
 
-      </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/mikebl71">mikebl71</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-    
-  </body>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<br id="endmain" />
+</div>
+
+
+<!-- ======== Footer ======== -->
+
+<div id="footer">
+  <hr />
+  Project is hosted on <a href="http://github.com">GitHub</a> and maintained by <a href="http://github.com/mikebl71">mikebl71</a>.
+  <br />
+  This web site is based on <a href="http://www.oswd.org/design/information/id/2591">Sinorcaish</a> template by <a href="http://www.zap.org.au/~john/">John Zaitseff</a>.
+</div>
+
+</body>
 </html>
