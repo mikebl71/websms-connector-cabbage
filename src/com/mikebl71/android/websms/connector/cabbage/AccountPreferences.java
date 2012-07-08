@@ -50,6 +50,7 @@ public class AccountPreferences {
 	// Available suffixes for account preference keys
 	private static final String LABEL_ACC_PREF_SUFFIX = "_label";
 	private static final String PROVIDER_ACC_PREF_SUFFIX = "_provider";
+	private static final String LISTEDPROV_ACC_PREF_SUFFIX = "_listedprov";
 	private static final String DISPLAYPROV_ACC_PREF_SUFFIX = "_displayprov";
 	private static final String USERNAME_ACC_PREF_SUFFIX = "_username";
 	private static final String PASSWORD_ACC_PREF_SUFFIX = "_password";
@@ -58,6 +59,7 @@ public class AccountPreferences {
 	private static final String ID_BUNDLE_KEY = ACC_PREF_PREFIX + "_id";
 	private static final String LABEL_BUNDLE_KEY = ACC_PREF_PREFIX + LABEL_ACC_PREF_SUFFIX;
 	private static final String PROVIDER_BUNDLE_KEY = ACC_PREF_PREFIX + PROVIDER_ACC_PREF_SUFFIX;
+	private static final String LISTEDPROV_BUNDLE_KEY = ACC_PREF_PREFIX + LISTEDPROV_ACC_PREF_SUFFIX;
 	private static final String DISPLAYPROV_BUNDLE_KEY = ACC_PREF_PREFIX + DISPLAYPROV_ACC_PREF_SUFFIX;
 	private static final String USERNAME_BUNDLE_KEY = ACC_PREF_PREFIX + USERNAME_ACC_PREF_SUFFIX;
 	private static final String PASSWORD_BUNDLE_KEY = ACC_PREF_PREFIX + PASSWORD_ACC_PREF_SUFFIX;
@@ -66,6 +68,7 @@ public class AccountPreferences {
 	private static final String[] ACC_PREF_SUFFIXES = new String[] { 
 		LABEL_ACC_PREF_SUFFIX, 
 		PROVIDER_ACC_PREF_SUFFIX, 
+		LISTEDPROV_ACC_PREF_SUFFIX, 
 		DISPLAYPROV_ACC_PREF_SUFFIX, 
 		USERNAME_ACC_PREF_SUFFIX, 
 		PASSWORD_ACC_PREF_SUFFIX };
@@ -79,6 +82,10 @@ public class AccountPreferences {
 
 	public static String getProvider(SharedPreferences prefs, String accId) {
 		return prefs.getString(ACC_PREF_PREFIX + accId + PROVIDER_ACC_PREF_SUFFIX, null);
+	}
+
+	public static String getListedProvider(SharedPreferences prefs, String accId) {
+		return prefs.getString(ACC_PREF_PREFIX + accId + LISTEDPROV_ACC_PREF_SUFFIX, null);
 	}
 
 	public static String getDisplayProvider(SharedPreferences prefs, String accId) {
@@ -108,6 +115,10 @@ public class AccountPreferences {
 		return bundle.getString(PROVIDER_BUNDLE_KEY);
 	}
 
+	public static String getListedProvider(Bundle bundle) {
+		return bundle.getString(LISTEDPROV_BUNDLE_KEY);
+	}
+
 	public static String getDisplayProvider(Bundle bundle) {
 		return bundle.getString(DISPLAYPROV_BUNDLE_KEY);
 	}
@@ -130,6 +141,10 @@ public class AccountPreferences {
 
 	public static void setProvider(Bundle bundle, String provider) {
 		bundle.putString(PROVIDER_BUNDLE_KEY, provider);
+	}
+
+	public static void setListedProvider(Bundle bundle, String listedProvider) {
+		bundle.putString(LISTEDPROV_BUNDLE_KEY, listedProvider);
 	}
 
 	public static void setDisplayProvider(Bundle bundle, String displayProvider) {

@@ -59,7 +59,12 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 		this.addPreferencesFromResource(R.xml.account_prefs);
 
 		// populate values from bundle
-		Bundle accBundle = getIntent().getBundleExtra(AccountPreferences.ACCOUNT_BUNDLE);
+		Bundle accBundle;
+		if (savedInstanceState != null) {
+			accBundle = savedInstanceState;
+		} else {
+			accBundle = getIntent().getBundleExtra(AccountPreferences.ACCOUNT_BUNDLE);
+		}
 		initFromBundle(accBundle);
 
 		// show preference value in the preference summary
@@ -72,10 +77,22 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 		providerPref.setOnPreferenceChangeListener(new SetSummaryPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				// custom provider field is only enabled if the "custom" provider is selected
-				customProviderPref.setEnabled(newValue.equals(CUSTOM_PROVIDER_VALUE));
+				if (newValue.equals(CUSTOM_PROVIDER_VALUE)) {
+					customProviderPref.setEnabled(true);
+				} else {
+					customProviderPref.setEnabled(false);
+					customProviderPref.setText(null);
+					customProviderPref.setSummary(null);
+				}
 				return super.onPreferenceChange(preference, newValue);
 			}
 		});
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		extractIntoBundle(savedInstanceState);
 	}
 
 	/**
@@ -107,7 +124,8 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 	 */
 	@Override
 	public void onBackPressed () {
-		Bundle accBundle = extractIntoBundle();
+		Bundle accBundle = new Bundle();
+		extractIntoBundle(accBundle);
 
 		if (AccountPreferences.isValid(accBundle)) {
 			finishWithOk();
@@ -182,7 +200,9 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 	 */
 	private void finishWithOk() {
 		Intent intent = new Intent();
-		intent.putExtra(AccountPreferences.ACCOUNT_BUNDLE, extractIntoBundle());
+		Bundle accBundle = new Bundle();
+		extractIntoBundle(accBundle);
+		intent.putExtra(AccountPreferences.ACCOUNT_BUNDLE, accBundle);
 		setResult(Activity.RESULT_OK, intent);
 		finish();
 	}
@@ -192,7 +212,9 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 	 */
 	private void finishWithDeleteAccount() {
 		Intent intent = new Intent();
-		intent.putExtra(AccountPreferences.ACCOUNT_BUNDLE, extractIntoBundle());
+		Bundle accBundle = new Bundle();
+		extractIntoBundle(accBundle);
+		intent.putExtra(AccountPreferences.ACCOUNT_BUNDLE, accBundle);
 		setResult(RESULT_DELETE, intent);
 		finish();
 	}
@@ -231,23 +253,25 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 			ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCR_PREF_PROVIDER);
 			EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_CUSTOM_PROVIDER);
 
-			value = AccountPreferences.getProvider(accBundle);
-			if (!isSet(value)) {
+			String listedProvValue = AccountPreferences.getListedProvider(accBundle);
+			String provValue = AccountPreferences.getProvider(accBundle);
+
+			if (!isSet(listedProvValue)) {
 				customProviderPref.setEnabled(false);
 
-			} else if (providerPref.findIndexOfValue(value) >= 0) {
-				providerPref.setValue(value);
+			} else if (listedProvValue.equals(CUSTOM_PROVIDER_VALUE)) {
+				providerPref.setValue(listedProvValue);
 				providerPref.setSummary(providerPref.getEntry());
 
-				customProviderPref.setEnabled(false);
+				customProviderPref.setText(provValue);
+				customProviderPref.setSummary(provValue);
+				customProviderPref.setEnabled(true);
 
 			} else {
-				providerPref.setValue(CUSTOM_PROVIDER_VALUE);
+				providerPref.setValue(listedProvValue);
 				providerPref.setSummary(providerPref.getEntry());
 
-				customProviderPref.setText(value);
-				customProviderPref.setSummary(value);
-				customProviderPref.setEnabled(true);
+				customProviderPref.setEnabled(false);
 			}
 		}
 	}
@@ -255,10 +279,7 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 	/**
 	 * Extracts preferences into account preference bundle.
 	 */
-	private Bundle extractIntoBundle() {
-		Bundle accBundle = new Bundle();
-
-		String value;
+	private void extractIntoBundle(Bundle accBundle) {
 		EditTextPreference pref;
 
 		AccountPreferences.setId(accBundle, accId);
@@ -273,23 +294,24 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 		AccountPreferences.setPassword(accBundle, pref.getText());
 
 		ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCR_PREF_PROVIDER);
-		value = providerPref.getValue();
+		String listedProvValue = providerPref.getValue();
 
-		if (!isSet(value)) {
+		if (!isSet(listedProvValue)) {
 			AccountPreferences.setProvider(accBundle, null);
+			AccountPreferences.setListedProvider(accBundle, null);
 			AccountPreferences.setDisplayProvider(accBundle, null);
 
-		} else if (value.equals(CUSTOM_PROVIDER_VALUE)) {
+		} else if (listedProvValue.equals(CUSTOM_PROVIDER_VALUE)) {
 			EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_CUSTOM_PROVIDER);
 			AccountPreferences.setProvider(accBundle, customProviderPref.getText());
+			AccountPreferences.setListedProvider(accBundle, listedProvValue);
 			AccountPreferences.setDisplayProvider(accBundle, customProviderPref.getText());
 
 		} else {
-			AccountPreferences.setProvider(accBundle, providerPref.getValue());
+			AccountPreferences.setProvider(accBundle, listedProvValue);
+			AccountPreferences.setListedProvider(accBundle, listedProvValue);
 			AccountPreferences.setDisplayProvider(accBundle, providerPref.getEntry().toString());
 		}
-		
-		return accBundle;
 	}
 
 

@@ -42,7 +42,7 @@ import de.ub0r.android.websms.connector.common.WebSMSException;
 public class CabbageConnector extends BasicConnector {
 
 	/** Logging tag */
-	private static final String TAG = "cabbage";
+	public static final String TAG = "cabbage";
 
 	/** Prefix used by resources with error messages */
 	private static final String ERR_MESSAGE_PREFIX = "cabbage_err_";
