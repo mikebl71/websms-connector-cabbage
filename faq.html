@@ -56,6 +56,7 @@
 <li><a href="#websms_connector">What is "WebSMS Connector"?</a></li>
 <li><a href="#providers">Which mobile providers are supported?</a></li>
 <li><a href="#o2">Why "O2" is not in the list of supported mobile providers?</a></li>
+<li><a href="#vf">Why "Vodafone" is not in the list of supported mobile providers?</a></li>
 <li><a href="#how_much">How much does it cost to send a message?</a></li>
 <li><a href="#international_destinations">Does this app support international destinations, non-english characters?</a></li>
 <li><a href="#multi_accounts">I am registered with several Irish mobile providers and want to switch between them, is this supported?</a></li>
@@ -97,7 +98,7 @@ You can read more about it on the <a href="https://code.google.com/p/websmsdroid
 
 <h4 id="providers">Which mobile providers are supported?</h4>
 
-<p>Irish mobile providers: Vodafone, Meteor, Three, Tesco Mobile, eMobile, and also O2 UK and Telenor Serbia.
+<p>Irish mobile providers: Meteor, Three, Tesco Mobile, eMobile, and also O2 UK and Telenor Serbia.
 This application sends sms using web sites of these mobile providers (via Cabbage Gateway). 
 So you must be registered on one of these web sites (have username and password to login) 
 in order to use this application.</p>
@@ -107,20 +108,18 @@ in order to use this application.</p>
 
 <h4 id="o2">Why "O2" is not in the list of supported mobile providers?</h4>
 
-<p>Unfortunately, O2 decided to block the site where Cabbage Gateway is running. 
-So the default Cabbage Gateway does not currently work with O2.</p>
+<p>Unfortunately, O2 decided to play hard. 
+They first blocked the site where Cabbage Gateway was running.
+And then implemented an extra level of security for their webtexts that requires you to type in a code that was sent to your mobile.
+So Cabbage Gateway cannot support O2 at present.</p>
 
-<p>However, if you know a bit about computers then there is a workaround. 
-You can install a copy of Cabbage Gateway on your own web site. 
-Then, provided that you don't share it with too many people and stay under the O2's radar, 
-you can use it with no problems. See the
-<a href="#my_own_gateway">"Can I install my own copy of Cabbage Gateway"</a> question for the details on how to switch to your own gateway.
-Then, since "O2" is not in the official Providers list, you'll need to use the "Custom" provider. 
-When you add your account, choose "Custom" in the "Provider" list
-and type "o" (without quotes - cabbage code for O2) in the "Custom Provider" field.<br/>
-<b>Update on July 2012:</b> O2 implemented an extra level of security for their webtexts 
-that requires you to type in a code that was sent to your mobile if it detects that the client has a non-Irish IP address. 
-Which means that the web site that hosts your Cabbage Gateway has to be in Ireland to get around this.</p>
+<div class="totop"><a href="#main">Top</a></div>
+
+
+<h4 id="vf">Why "Vodafone" is not in the list of supported mobile providers?</h4>
+
+<p>Vodafone have recently added captchas to their webtexts.
+We are working on the way to get around this so watch the space.</p>
 
 <div class="totop"><a href="#main">Top</a></div>
 
