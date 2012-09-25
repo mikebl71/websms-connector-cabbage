@@ -52,8 +52,6 @@ public class CabbageConnector extends BasicConnector {
 
 	private static final Pattern FIRST_NUMBER = Pattern.compile("^(-?\\d+)");
 
-	private volatile String cabbageScriptUrl = null;
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -108,26 +106,20 @@ public class CabbageConnector extends BasicConnector {
 			Log.d(TAG, "updateSpec: set inactive");
 		}
 
-		// TODO this should be done in getUrlSend but, unfortunately, 
-		//      getUrlSend doesn't get the context, so has to be done beforehand
-		cabbageScriptUrl = CabbageConnectorPreferences.getCabbageUrl(prefs);
-
 		return connectorSpec;
 	}
 
 	@Override
-	protected String getUrlSend(ArrayList<BasicNameValuePair> d) {
-		// TODO cabbage script url should come from preferences but, unfortunately, 
-		//      getUrlSend doesn't get the context, so had to be retrieved beforehand
-		return cabbageScriptUrl;
+	protected String getUrlSend(final Context context, ArrayList<BasicNameValuePair> d) {
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		return CabbageConnectorPreferences.getCabbageUrl(prefs);
 	}
 
 	@Override
-	protected String getUrlBalance(ArrayList<BasicNameValuePair> d) {
+	protected String getUrlBalance(final Context context, ArrayList<BasicNameValuePair> d) {
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		addParam(d, "c", "1");
-		// TODO cabbage script url should come from preferences but, unfortunately, 
-		//      getUrlBalance doesn't get the context, so had to be retrieved beforehand
-		return cabbageScriptUrl;
+		return CabbageConnectorPreferences.getCabbageUrl(prefs);
 	}
 
 	@Override
