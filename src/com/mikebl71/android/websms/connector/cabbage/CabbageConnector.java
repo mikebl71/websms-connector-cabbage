@@ -19,20 +19,26 @@ package com.mikebl71.android.websms.connector.cabbage;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import de.ub0r.android.websms.connector.common.BasicConnector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
-import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
+import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -49,6 +55,9 @@ public class CabbageConnector extends BasicConnector {
 
 	/** Id of the dummy subconnector */
 	private static final String DUMMY_SUB_CONNECTOR_ID = "0";
+
+	/** Timeout for establishing a connection and waiting for a response from the server */
+	private static final int TIMEOUT_MS = 30000;
 
 	private static final Pattern FIRST_NUMBER = Pattern.compile("^(-?\\d+)");
 
@@ -110,6 +119,16 @@ public class CabbageConnector extends BasicConnector {
 	}
 
 	@Override
+	protected int getTimeout() {
+		return TIMEOUT_MS;
+	}
+
+	@Override
+	protected int getMaxHttpConnections(Context context, ConnectorSpec cs) {
+		return cs.getSubConnectorCount() + 1;
+	}
+
+	@Override
 	protected String getUrlSend(final Context context, ArrayList<BasicNameValuePair> d) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return CabbageConnectorPreferences.getCabbageUrl(prefs);
@@ -155,14 +174,14 @@ public class CabbageConnector extends BasicConnector {
 	@Override
 	protected String getUsername(Context context, ConnectorCommand command, ConnectorSpec cs) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String accId = getAccountId(command, prefs);
+		String accId = command.getSelectedSubConnector();
 		return AccountPreferences.getUsername(prefs, accId);
 	}
 
 	@Override
 	protected String getPassword(Context context, ConnectorCommand command, ConnectorSpec cs) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String accId = getAccountId(command, prefs);
+		String accId = command.getSelectedSubConnector();
 		return AccountPreferences.getPassword(prefs, accId);
 	}
 
@@ -184,7 +203,7 @@ public class CabbageConnector extends BasicConnector {
 
 		// populate mobile provider selection parameter
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		String accId = getAccountId(command, prefs);
+		String accId = command.getSelectedSubConnector();
 		addParam(d, "s", AccountPreferences.getProvider(prefs, accId));
 	}
 	
@@ -201,9 +220,78 @@ public class CabbageConnector extends BasicConnector {
 		int retNumCode = Integer.parseInt(retCode);
 		
 		if (retNumCode >= 0) {
-			cs.setBalance(retCode);
+			synchronized (SYNC_UPDATE) {
+				cs.getSubConnector(command.getSelectedSubConnector()).setBalance(retCode);
+			}
 		} else {
 			throw new WebSMSException(getErrorMessage(context, retNumCode));
+		}
+	}
+
+	@Override
+	protected void onNewRequest(final Context context,
+			final ConnectorSpec reqSpec, final ConnectorCommand command) {
+		// restore balance info that we might have lost from the request
+		if (reqSpec != null) {
+			ConnectorSpec connSpec = this.getSpec(context);
+			SubConnectorSpec[] connSubs = connSpec.getSubConnectors();
+			SubConnectorSpec[] reqSubs = reqSpec.getSubConnectors();
+			
+			for (int idx = 0; idx < connSubs.length && idx < reqSubs.length; idx++) {
+				String connBalance = connSubs[idx].getBalance();
+				String reqBalance = reqSubs[idx].getBalance();
+	
+				if (connBalance == null && reqBalance != null) {
+					connSubs[idx].setBalance(reqBalance);
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void doUpdate(final Context context, final Intent intent) {
+
+		ConnectorSpec cs = this.getSpec(context);
+		int subCount = cs.getSubConnectorCount();
+		SubConnectorSpec[] subs = cs.getSubConnectors();
+
+		List<Callable<Void>> tasks = new ArrayList<Callable<Void>>(subCount);
+		for (SubConnectorSpec sub : subs) {
+			final String subId = sub.getID();
+
+			tasks.add(new Callable<Void>() {
+				public Void call() throws Exception {
+					// clone intent and assign it to this sub connector
+					Intent subIntent = new Intent(intent);
+					ConnectorCommand cmd = new ConnectorCommand(subIntent);
+					cmd.setSelectedSubConnector(subId);
+					cmd.setToIntent(subIntent);
+					// update for this subconnector
+					CabbageConnector.super.doUpdate(context, subIntent);
+					return null;
+				}
+			});
+		}
+
+		try {
+			ExecutorService executor = Executors.newFixedThreadPool(subCount);
+			// execute all updates in parallel and wait till all are complete
+			List<Future<Void>> results = executor.invokeAll(tasks);
+			executor.shutdownNow();
+
+			// if any of the updates failed then re-throw the first exception
+			// (which will then be returned to WebSMS)
+			for (int idx = 0; idx < results.size(); idx++) {
+				Future<Void> result = results.get(idx);
+				try {
+					result.get();
+				} catch (ExecutionException ex) {
+					String subName = subs[idx].getName();
+					throw new WebSMSException(subName + ": " + ConnectorSpec.convertErrorMessage(context, ex.getCause()));
+				}
+			}
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -219,12 +307,4 @@ public class CabbageConnector extends BasicConnector {
 		}
 	}
 	
-	private String getAccountId(ConnectorCommand command, SharedPreferences prefs) {
-		String accId = command.getSelectedSubConnector();
-		if (accId == null) {
-			// TODO  for updateBalance, the SubConnector is not set.  Bug in WebSMS ?
-			accId = AccountPreferences.getAccountIds(prefs).get(0);
-		}
-		return accId;
-	}
 }
