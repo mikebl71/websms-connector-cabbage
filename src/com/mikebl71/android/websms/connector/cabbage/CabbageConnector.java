@@ -172,6 +172,11 @@ public class CabbageConnector extends BasicConnector {
 	}
 
 	@Override
+	protected String getUserAgent() {
+		return "";
+	}
+
+	@Override
 	protected String getUsername(Context context, ConnectorCommand command, ConnectorSpec cs) {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String accId = command.getSelectedSubConnector();
