@@ -173,7 +173,7 @@ public class CabbageConnector extends BasicConnector {
 
 	@Override
 	protected String getUserAgent() {
-		return "";
+		return "Mozilla/5.0";
 	}
 
 	@Override
