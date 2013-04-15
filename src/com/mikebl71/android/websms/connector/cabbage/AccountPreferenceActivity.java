@@ -26,6 +26,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,11 +41,11 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 	public static final int DIALOG_DELETE_CONFIRM_ID  = 11;
 	public static final int DIALOG_INVALID_CONFIRM_ID = 12;
 
-	private static final String SCR_PREF_LABEL = "account_label";
-	private static final String SCR_PREF_PROVIDER = "account_provider";
-	private static final String SCR_PREF_CUSTOM_PROVIDER = "account_custom_provider";
-	private static final String SCR_PREF_USERNAME = "account_username";
-	private static final String SCR_PREF_PASSWORD = "account_password";
+	private static final String SCREEN_PREF_LABEL = "account_label";
+	private static final String SCREEN_PREF_PROVIDER = "account_provider";
+	private static final String SCREEN_PREF_CUSTOM_PROVIDER = "account_custom_provider";
+	private static final String SCREEN_PREF_USERNAME = "account_username";
+	private static final String SCREEN_PREF_PASSWORD = "account_password";
 
 	private static final String CUSTOM_PROVIDER_VALUE = "custom";
 
@@ -71,8 +72,8 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 		SetSummaryPreferenceChangeListener.register(getPreferenceScreen());
 
 		// special treatment for providers
-		final ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCR_PREF_PROVIDER);
-		final EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_CUSTOM_PROVIDER);
+		final ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCREEN_PREF_PROVIDER);
+		final EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_CUSTOM_PROVIDER);
 
 		providerPref.setOnPreferenceChangeListener(new SetSummaryPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -230,33 +231,33 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 			accId = AccountPreferences.getId(accBundle);
 
 			value = AccountPreferences.getLabel(accBundle);
-			if (isSet(value)) {
-				pref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_LABEL);
+			if (!TextUtils.isEmpty(value)) {
+				pref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_LABEL);
 				pref.setText(value);
 				pref.setSummary(value);
 			}
 
 			value = AccountPreferences.getUsername(accBundle);
-			if (isSet(value)) {
-				pref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_USERNAME);
+			if (!TextUtils.isEmpty(value)) {
+				pref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_USERNAME);
 				pref.setText(value);
 				pref.setSummary(value);
 			}
 
 			value = AccountPreferences.getPassword(accBundle);
-			if (isSet(value)) {
-				pref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_PASSWORD);
+			if (!TextUtils.isEmpty(value)) {
+				pref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_PASSWORD);
 				pref.setText(value);
 				pref.setSummary("***");	
 			}
 
-			ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCR_PREF_PROVIDER);
-			EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_CUSTOM_PROVIDER);
+			ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCREEN_PREF_PROVIDER);
+			EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_CUSTOM_PROVIDER);
 
 			String listedProvValue = AccountPreferences.getListedProvider(accBundle);
 			String provValue = AccountPreferences.getProvider(accBundle);
 
-			if (!isSet(listedProvValue)) {
+			if (TextUtils.isEmpty(listedProvValue)) {
 				customProviderPref.setEnabled(false);
 
 			} else if (listedProvValue.equals(CUSTOM_PROVIDER_VALUE)) {
@@ -284,25 +285,25 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 
 		AccountPreferences.setId(accBundle, accId);
 
-		pref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_LABEL);
+		pref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_LABEL);
 		AccountPreferences.setLabel(accBundle, pref.getText());
 
-		pref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_USERNAME);
+		pref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_USERNAME);
 		AccountPreferences.setUsername(accBundle, pref.getText());
 
-		pref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_PASSWORD);
+		pref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_PASSWORD);
 		AccountPreferences.setPassword(accBundle, pref.getText());
 
-		ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCR_PREF_PROVIDER);
+		ListPreference providerPref = (ListPreference) getPreferenceScreen().findPreference(SCREEN_PREF_PROVIDER);
 		String listedProvValue = providerPref.getValue();
 
-		if (!isSet(listedProvValue)) {
+		if (TextUtils.isEmpty(listedProvValue)) {
 			AccountPreferences.setProvider(accBundle, null);
 			AccountPreferences.setListedProvider(accBundle, null);
 			AccountPreferences.setDisplayProvider(accBundle, null);
 
 		} else if (listedProvValue.equals(CUSTOM_PROVIDER_VALUE)) {
-			EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCR_PREF_CUSTOM_PROVIDER);
+			EditTextPreference customProviderPref = (EditTextPreference) getPreferenceScreen().findPreference(SCREEN_PREF_CUSTOM_PROVIDER);
 			AccountPreferences.setProvider(accBundle, customProviderPref.getText());
 			AccountPreferences.setListedProvider(accBundle, listedProvValue);
 			AccountPreferences.setDisplayProvider(accBundle, customProviderPref.getText());
@@ -312,11 +313,6 @@ public final class AccountPreferenceActivity extends PreferenceActivity {
 			AccountPreferences.setListedProvider(accBundle, listedProvValue);
 			AccountPreferences.setDisplayProvider(accBundle, providerPref.getEntry().toString());
 		}
-	}
-
-
-	private static boolean isSet(String value) {
-		return value != null && value.length() > 0;
 	}
 
 }

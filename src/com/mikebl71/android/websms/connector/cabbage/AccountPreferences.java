@@ -21,6 +21,7 @@ import java.util.List;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 /**
  * Helper class for getting/setting account preferences
@@ -41,6 +42,8 @@ public class AccountPreferences {
 	/** Name of bundle with account preferences. */
 	public static final String ACCOUNT_BUNDLE = "account_bundle";
 
+	// Some important providers
+	public static final String PROVIDER_VODAFONE = "v";
 
 	// --- Private constants ---
 
@@ -54,6 +57,9 @@ public class AccountPreferences {
 	private static final String DISPLAYPROV_ACC_PREF_SUFFIX = "_displayprov";
 	private static final String USERNAME_ACC_PREF_SUFFIX = "_username";
 	private static final String PASSWORD_ACC_PREF_SUFFIX = "_password";
+
+	// Suffixes for internal account preference keys
+	private static final String COOKIES_ACC_PREF_SUFFIX = "_cookies";
 
 	// Keys for storing account preferences in a Bundle
 	private static final String ID_BUNDLE_KEY = ACC_PREF_PREFIX + "_id";
@@ -73,8 +79,11 @@ public class AccountPreferences {
 		USERNAME_ACC_PREF_SUFFIX, 
 		PASSWORD_ACC_PREF_SUFFIX };
 
+	private static final String[] INTERNAL_ACC_PREF_SUFFIXES = new String[] { 
+		COOKIES_ACC_PREF_SUFFIX }; 
 
-	// --- Getters for preferences stored in the SharedPreferences ---
+
+	// --- Getters/Setters for preferences stored in the SharedPreferences ---
 
 	public static String getLabel(SharedPreferences prefs, String accId) {
 		return prefs.getString(ACC_PREF_PREFIX + accId + LABEL_ACC_PREF_SUFFIX, null);
@@ -98,6 +107,16 @@ public class AccountPreferences {
 
 	public static String getPassword(SharedPreferences prefs, String accId) {
 		return prefs.getString(ACC_PREF_PREFIX + accId + PASSWORD_ACC_PREF_SUFFIX, null);
+	}
+
+	public static String getCookies(SharedPreferences prefs, String accId) {
+		return prefs.getString(ACC_PREF_PREFIX + accId + COOKIES_ACC_PREF_SUFFIX, null);
+	}
+
+	public static void setCookies(SharedPreferences prefs, String accId, String cookies) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(ACC_PREF_PREFIX + accId + COOKIES_ACC_PREF_SUFFIX, cookies);
+		editor.commit();
 	}
 
 
@@ -225,6 +244,9 @@ public class AccountPreferences {
 			for (String suffix : ACC_PREF_SUFFIXES) {
 				editor.putString(ACC_PREF_PREFIX + accId + suffix, bundle.getString(ACC_PREF_PREFIX + suffix));
 			}
+			for (String suffix : INTERNAL_ACC_PREF_SUFFIXES) {
+				editor.remove(ACC_PREF_PREFIX + accId + suffix);
+			}
 
 			editor.commit();
 		}
@@ -241,9 +263,28 @@ public class AccountPreferences {
 			for (String suffix : ACC_PREF_SUFFIXES) {
 				editor.remove(ACC_PREF_PREFIX + accId + suffix);
 			}
+			for (String suffix : INTERNAL_ACC_PREF_SUFFIXES) {
+				editor.remove(ACC_PREF_PREFIX + accId + suffix);
+			}
 
 			editor.commit();
 		}
+	}
+
+	/**
+	 * Checks if an account for the given provider exists.
+	 */
+	public static boolean isProviderConfigured(SharedPreferences prefs, String provider) {
+		for (String key : prefs.getAll().keySet()) {
+			if (key.startsWith(ACC_PREF_PREFIX) && key.endsWith(PROVIDER_ACC_PREF_SUFFIX)) {
+
+				String accProvider = prefs.getString(key, "");
+				if (accProvider.equals(provider)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -273,19 +314,20 @@ public class AccountPreferences {
 	 * Checks if the account preferences Bundle contains no values.
 	 */
 	public static boolean isEmpty(Bundle bundle) {
-		return !isSet(getLabel(bundle)) && !isSet(getProvider(bundle)) && !isSet(getUsername(bundle)) && !isSet(getPassword(bundle));
+		return TextUtils.isEmpty(getLabel(bundle))
+				&& TextUtils.isEmpty(getProvider(bundle))
+				&& TextUtils.isEmpty(getUsername(bundle))
+				&& TextUtils.isEmpty(getPassword(bundle));
 	}
 
 	/**
 	 * Checks if account preference values stored in the Bundle are valid.
 	 */
 	public static boolean isValid(Bundle bundle) {
-		return isSet(getLabel(bundle)) && isSet(getProvider(bundle)) && isSet(getUsername(bundle)) && isSet(getPassword(bundle));
-	}
-
-
-	private static boolean isSet(String value) {
-		return value != null && value.length() > 0;
+		return !TextUtils.isEmpty(getLabel(bundle))
+				&& !TextUtils.isEmpty(getProvider(bundle))
+				&& !TextUtils.isEmpty(getUsername(bundle))
+				&& !TextUtils.isEmpty(getPassword(bundle));
 	}
 
 }

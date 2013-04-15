@@ -23,6 +23,17 @@
 				    	    
 	</PreferenceCategory>
 
+	<PreferenceCategory 
+	    android:title="@string/connector_prefs_captcha">
+	    
+		<CheckBoxPreference android:key="capcha_use_solver"
+			android:title="@string/connector_prefs_capcha_use_solver"
+			android:summary="@string/connector_prefs_capcha_use_solver_summary"
+			android:defaultValue="true" 
+			android:dependency="enable_connector" />
+				    	    
+	</PreferenceCategory>
+
 	<PreferenceCategory android:key="accounts" 
 	    android:title="@string/connector_prefs_accounts" />
 

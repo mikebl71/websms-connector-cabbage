@@ -40,10 +40,6 @@ import de.ub0r.android.websms.connector.common.ConnectorPreferenceActivity;
  */
 public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenceActivity {
 
-	private static final String PREFS_ACCOUNTS_CATEGORY = "accounts";
-
-	private static final String SCR_ENABLE = "enable_connector";
-	
 	public static final int DIALOG_INVALID_CONFIRM_ID = 12;
 
 	/**
@@ -55,7 +51,7 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 		this.addPreferencesFromResource(R.xml.connector_prefs);
 
 		// special treatment for "enable" preference
-		final Preference enablePref = getPreferenceScreen().findPreference(SCR_ENABLE);
+		final Preference enablePref = getPreferenceScreen().findPreference(CabbageConnectorPreferences.PREFS_ENABLED);
 
 		enablePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -120,6 +116,14 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 		switch (resultCode) {
 		case Activity.RESULT_OK:
 			AccountPreferences.updateAccount(prefs, bundle);
+
+			if (AccountPreferences.PROVIDER_VODAFONE.equals(AccountPreferences.getProvider(bundle))
+					&& !CaptcherSolverClient.isInstalled(getApplicationContext())
+					&& CaptcherSolverClient.shouldRemind(getApplicationContext())) {
+				Toast.makeText(getApplicationContext(),
+						getString(R.string.tip_cabbage_captcha_pref),
+						Toast.LENGTH_LONG).show();
+			}
 			break;
 			
 		case AccountPreferenceActivity.RESULT_DELETE:
@@ -206,7 +210,7 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 	 */
 	private void populateAccountList() {
 		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
-		PreferenceCategory accPrefCategory = (PreferenceCategory) findPreference(PREFS_ACCOUNTS_CATEGORY);
+		PreferenceCategory accPrefCategory = (PreferenceCategory) findPreference(CabbageConnectorPreferences.PREFS_ACCOUNTS_CATEGORY);
 
 		accPrefCategory.removeAll();
 
@@ -234,6 +238,12 @@ public final class CabbageConnectorPreferenceActivity extends ConnectorPreferenc
 
 			pref.setDependency(CabbageConnectorPreferences.PREFS_ENABLED);
 		}
+
+		// special treatment for "captcha" preferences
+		final Preference captchaPref = getPreferenceScreen().findPreference(CabbageConnectorPreferences.PREFS_CAPTCHA_USE_SOLVER);
+		captchaPref.setEnabled(
+				CaptcherSolverClient.isInstalled(getApplicationContext()) && 
+				AccountPreferences.isProviderConfigured(sharedPrefs, AccountPreferences.PROVIDER_VODAFONE));
 	}
 
 }

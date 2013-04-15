@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mikebl71.android.websms.connector.cabbage"
     android:installLocation="auto"
-    android:versionCode="4"
-    android:versionName="1.3" >
+    android:versionCode="5"
+    android:versionName="1.4" >
 
 	<uses-sdk
 	    android:minSdkVersion="7" 
@@ -79,6 +79,8 @@
 			<intent-filter>
 				<action android:name="com.mikebl71.android.websms.connector.cabbage.RUN_UPDATE" />
 				<action android:name="com.mikebl71.android.websms.connector.cabbage.RUN_SEND" />
+				<action android:name="com.mikebl71.android.websms.connector.cabbage.CAPTCHA_SOLVED" />
+				<action android:name="com.mikebl71.android.websms.connector.cabbage.CAPTCHA_AUTO_SOLVED" />
 				<action android:name="de.ub0r.android.websms.connector.UPDATE" />
 			</intent-filter>
 		</receiver>

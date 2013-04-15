@@ -13,6 +13,9 @@
 	<string name="connector_prefs_cabbage_url_default_summary">Use default location for Cabbage Gateway</string>
 	<string name="connector_prefs_cabbage_url_custom">Custom Cabbage Gateway URL</string>
 	<string name="connector_prefs_cabbage_url_custom_summary">Web address of the Cabbage message sending script</string>
+	<string name="connector_prefs_captcha">Captcha (Vodafone only)</string>
+	<string name="connector_prefs_capcha_use_solver">Use Cabbage Captcha App</string>
+	<string name="connector_prefs_capcha_use_solver_summary">Solve captchas automatically with Cabbage Captcha app</string>
 	<string name="connector_prefs_accounts">Accounts</string>
 		
 	<string name="pref_show_add_account">Click Menu / Add Account to add accounts</string>
@@ -77,5 +80,13 @@
     <string name="cabbage_err_32">Empty provider</string>
     <string name="cabbage_err_N">Generic Cabbage error ({0})</string>
     <string name="cabbage_err_unexpected">Unexpected response from Cabbage gateway</string>
+
+    <string name="error_retrieve_captcha">Failed to retrieve the captcha image</string>
+    <string name="error_captcha_not_solved">Captcha not solved</string>
+    
+    <string name="tip_cabbage_captcha_pref">Tip: install \"Cabbage Captcha\" free app to solve captchas for you</string>
+    <string name="websms_captcha_text">Please enter the text below:</string>
+    <string name="websms_captcha_text_with_tip">Please enter the text below:\n(Tip: install \"Cabbage Captcha\" free app to solve captchas for you)</string>
+    <string name="websms_captcha_text_auto_failed">Please enter the text below:\n(Could not solve this one automatically)</string>
     
 </resources>
