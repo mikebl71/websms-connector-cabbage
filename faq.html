@@ -56,8 +56,8 @@
 <li><a href="#websms_connector">What is "WebSMS Connector"?</a></li>
 <li><a href="#providers">Which mobile providers are supported?</a></li>
 <li><a href="#o2">Why "O2" is not in the list of supported mobile providers?</a></li>
-<li><a href="#vf">Why "Vodafone" is not in the list of supported mobile providers?</a></li>
 <li><a href="#how_much">How much does it cost to send a message?</a></li>
+<li><a href="#captcha">What's all that about Vodafone and captchas?</a></li>
 <li><a href="#international_destinations">Does this app support international destinations, non-english characters?</a></li>
 <li><a href="#multi_accounts">I am registered with several Irish mobile providers and want to switch between them, is this supported?</a></li>
 <li><a href="#safe">Is it safe to use Cabbage Gateway?</a></li>
@@ -97,7 +97,7 @@ You can read more about it on the <a href="https://code.google.com/p/websmsdroid
 
 <h4 id="providers">Which mobile providers are supported?</h4>
 
-<p>Irish mobile providers: Meteor, Three, Tesco Mobile, eMobile, and also O2 UK and Telenor Serbia.
+<p>Irish mobile providers: Vodafone, Meteor, Three, Tesco Mobile, eMobile, and also O2 UK and Telenor Serbia.
 This application sends sms using web sites of these mobile providers (via Cabbage Gateway). 
 So you must be registered on one of these web sites (have username and password to login) 
 in order to use this application.</p>
@@ -118,10 +118,16 @@ The setting "Via intermediate server" does not work for O2, meaning that the app
 <div class="totop"><a href="#main">Top</a></div>
 
 
-<h4 id="vf">Why "Vodafone" is not in the list of supported mobile providers?</h4>
+<h4 id="captcha">What's all that about Vodafone and captchas?</h4>
 
-<p>Vodafone have recently added captchas to their webtexts.
-We are working on the way to get around this so watch the space.</p>
+<p>A captcha is an image (usually obscured letters) that some websites ask you to recognise in order to prove that you are a human.
+This relies on the fact that humans are much better with images than computers.
+Some while ago, Vodafone introduced captchas as well, so you now need to solve a captcha before you can send a web text.
+That's why, if you use Vodafone, WebSMS will show you the captcha image and ask you to type in the answer.
+In order to reduce the pain somewhat, Vodafone does not ask for a captcha answer every time, but only occasionally.
+Also, it turned out that Vodafone captchas are actually not that hard to solve by a program.
+There is a free app called Cabbage Captcha that does the job nicely most of the time (some 80% success rate).
+If you install it, then WebSMS will try to get a captcha answer from this app first, and only if that failed would it need to ask you.</p>
 
 <div class="totop"><a href="#main">Top</a></div>
 
@@ -152,7 +158,7 @@ Then you'll know for sure how much it costs and whether it's worth it.</p>
 <div class="totop"><a href="#main">Top</a></div>
 
 
-<h4 id="international_destinations">Does this app support international destinations, non-english characters?</h4>
+<h4 id="international_destinations">Does this app support international destinations, non-English characters?</h4>
 
 <p>This entirely depends on whether the web texts of your mobile provider support these. 
 If their web site doesn't say anything explicitly, 
