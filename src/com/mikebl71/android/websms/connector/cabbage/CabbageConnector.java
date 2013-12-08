@@ -77,7 +77,6 @@ public class CabbageConnector extends Connector {
 	private static final String PARAM_PROVIDER   = "s";
 	private static final String PARAM_USERNAME   = "u";
 	private static final String PARAM_PASSWORD   = "p";
-	private static final String PARAM_SENDER     = "name";
 	private static final String PARAM_RECIPIENTS = "d";
 	private static final String PARAM_TEXT       = "m";
 	private static final String PARAM_BALANCE_ONLY = "c";
@@ -323,7 +322,6 @@ public class CabbageConnector extends Connector {
 
 		String text = command.getText();
 		if (text != null && text.length() > 0) {
-			addParam(d, PARAM_SENDER, command.getDefSender());
 			addParam(d, PARAM_RECIPIENTS, Utils.joinRecipientsNumbers(command.getRecipients(), ",", false /*oldFormat*/));
 			addParam(d, PARAM_TEXT, text);
 		} else {
