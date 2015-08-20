@@ -1,14 +1,22 @@
 
-    WebSMS Cabbage Connector
-    ========================
+  WebSMS: Cabbage Connector
+  =========================
 
-This is WebSMS Connector for Cabbage Gateway. 
-It's an android app that lets you send free/cheap sms messages via web sites of Irish mobile providers.
+This is WebSMS Connector for Cabbage Gateway.
+It lets you send free/cheap sms messages via websites of the following Irish mobile providers: Vodafone, Meteor, Three, Tesco Mobile, and eMobile.
+This app uses Cabbage Gateway to minimise mobile data traffic.
 
-See project web site:
-	http://mikebl71.github.com/websms-connector-cabbage/
+UPDATE: THIS APP IS DISCONTINUED.
 
+Unfortunately, the Cabbage Gateway is no longer maintained. Which means that it is falling apart and no-one is fixing it.
+This app can only work if the Cabbage Gateway is working, so I have no other option but to discontinue this app.
 
-You will need websms-api [1] to compile this code.
+  Project Site
+  ============
 
-[1] http://github.com/felixb/websms-api/
+http://mikebl71.github.io/websms-connector-cabbage/
+
+  Build
+  =====
+
+You will need websms-api (http://github.com/felixb/websms-api/) to compile this code.
